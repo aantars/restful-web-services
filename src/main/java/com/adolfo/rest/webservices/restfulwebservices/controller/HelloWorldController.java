@@ -1,6 +1,6 @@
 package com.adolfo.rest.webservices.restfulwebservices.controller;
 
-import com.adolfo.rest.webservices.restfulwebservices.bean.HelloWorldBean;
+import com.adolfo.rest.webservices.restfulwebservices.entity.HelloWorldBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
