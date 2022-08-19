@@ -2,6 +2,7 @@ package com.adolfo.rest.webservices.restfulwebservices.controller;
 
 import com.adolfo.rest.webservices.restfulwebservices.entity.User;
 import com.adolfo.rest.webservices.restfulwebservices.entity.dao.UserDAOService;
+import com.adolfo.rest.webservices.restfulwebservices.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,11 @@ public class UserResourceController {
     // retrieve user
     @GetMapping(path="/users/{id}")
     public User getUser(@PathVariable int id){
-        return userDAOService.findOne(id);
+        User user = userDAOService.findOne(id);
+        if (user==null){
+            throw new UserNotFoundException("id not found: " + id);
+        }
+        return user;
     }
 
     // save new user
