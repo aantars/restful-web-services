@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 @Component
 public class UserDAOService {
@@ -38,6 +40,14 @@ public class UserDAOService {
             }
         }
         return null;
+    }
+
+    public Optional<User> deleteUserByID(int givenId){
+        Optional<User> user = Optional.of(users.stream().filter(elemento -> elemento.getId() == givenId).findFirst().get());
+        if(user != null){
+            users.removeIf(elemento ->elemento.getId() == givenId);
+        }
+        return user;
     }
 
 }

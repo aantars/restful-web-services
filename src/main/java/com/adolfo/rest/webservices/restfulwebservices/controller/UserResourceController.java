@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserResourceController {
@@ -56,8 +57,9 @@ public class UserResourceController {
         return ResponseEntity.created(location).build();
     }
 
-    // Retrieve all posts for a User GET /users/{id}/posts
-    // Create posts for a User - POST /users/{id}/posts
-    // Retrieve details of a post GET /users/{id}/posts/{post_id}
+    @DeleteMapping(path="/users/{id}")
+    public Optional<User> deleteById(@PathVariable int id){
 
+        return userDAOService.deleteUserByID(id);
+    }
 }
