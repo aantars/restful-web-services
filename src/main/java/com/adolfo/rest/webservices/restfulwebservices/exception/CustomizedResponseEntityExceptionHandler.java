@@ -25,4 +25,17 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
         return  new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(NoExistingUsersException.class)
+    public final ResponseEntity<Object> handleNoExistingUsersException(Exception ex, WebRequest request) throws Exception {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return  new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    // UserNotSavedException
+    @ExceptionHandler(UserNotSavedException.class)
+    public final ResponseEntity<Object> handleUserNotSavedException(Exception ex, WebRequest request) throws Exception {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return  new ResponseEntity(exceptionResponse, HttpStatus.EXPECTATION_FAILED);
+    }
 }
