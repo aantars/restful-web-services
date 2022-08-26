@@ -1,0 +1,12 @@
+insert into user_details(id,birth, name) values (55, current_date(), 'Adolfo');
+insert into user_details(id,birth, name) values (66, current_date(), 'user2');
+insert into user_details(id,birth, name) values (77, current_date(), 'user3');
+insert into post(id, description, user_id) values(201, 'post 1 Adolfo', 55);
+insert into post(id, description, user_id) values(203, 'post 3 Adolfo', 55);
+insert into post(id, description, user_id) values(202, 'post 2 Adolfo', 55);
+insert into post(id, description, user_id) values(204, 'post 1 user2', 66);
+insert into post(id, description, user_id) values(205, 'post 3 user2', 66);
+insert into post(id, description, user_id) values(206, 'post 2 user2', 66);
+insert into post(id, description, user_id) values(207, 'post 1 user3', 77);
+insert into post(id, description, user_id) values(208, 'post 3 user3', 77);
+insert into post(id, description, user_id) values(209, 'post 2 user3', 77);

@@ -1,11 +1,13 @@
 package com.adolfo.rest.webservices.restfulwebservices.controller;
 
 import com.adolfo.rest.webservices.restfulwebservices.entity.User;
-import com.adolfo.rest.webservices.restfulwebservices.service.UserDAOService;
 import com.adolfo.rest.webservices.restfulwebservices.exception.NoExistingUsersException;
 import com.adolfo.rest.webservices.restfulwebservices.exception.UserNotFoundException;
 import com.adolfo.rest.webservices.restfulwebservices.exception.UserNotSavedException;
+import com.adolfo.rest.webservices.restfulwebservices.repository.UserRepository;
+import com.adolfo.rest.webservices.restfulwebservices.service.UserDAOService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,37 +18,36 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class UserResourceController {
+public class UserJPAController {
+    private UserRepository userRepository;
 
-    @Autowired
-    private UserDAOService userDAOService;
+    public UserJPAController( UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     // retrieve all users
-    @GetMapping(path="/users")
+    @GetMapping(path="/jpa/users")
     public List<User> getAllUsers(){
-        List<User> usersList= userDAOService.findAll();
-        if(usersList.isEmpty()){
-            throw new NoExistingUsersException("No users found");
-        }
-        return usersList;
+        return userRepository.findAll();
     }
 
     // retrieve user
-    @GetMapping(path="/users/{id}")
-    public User getUser(@PathVariable int id){
-        User user = userDAOService.findOne(id);
-        if (user==null){
+    @GetMapping(path="/jpa/users/{id}")
+    public EntityModel<User> getUser(@PathVariable int id){
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()){
             throw new UserNotFoundException("id not found: " + id);
         }
-        return user;
+        EntityModel<User> entityModel = EntityModel.of(user.get());
+        return entityModel;
     }
 
     // save new user
-    @PostMapping(path="/users")
+    @PostMapping(path="/jpa/users")
     public ResponseEntity createUser(@Valid @RequestBody User user){
         User savedUser;
         try {
-            savedUser = userDAOService.save(user);
+            savedUser = userRepository.save(user);
         }
         catch(Exception e){
             throw new UserNotSavedException("User could not be saved because: " + e.getMessage());
@@ -57,9 +58,9 @@ public class UserResourceController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping(path="/users/{id}")
-    public Optional<User> deleteById(@PathVariable int id){
+    @DeleteMapping(path="/jpa/users/{id}")
+    public void deleteById(@PathVariable int id){
 
-        return userDAOService.deleteUserByID(id);
+        userRepository.deleteById(id);
     }
 }

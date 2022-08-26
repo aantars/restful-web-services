@@ -1,4 +1,4 @@
-package com.adolfo.rest.webservices.restfulwebservices.entity.dao;
+package com.adolfo.rest.webservices.restfulwebservices.service;
 
 import com.adolfo.rest.webservices.restfulwebservices.entity.User;
 import org.springframework.stereotype.Component;
